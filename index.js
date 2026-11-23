@@ -1,5 +1,5 @@
 import puppeteer from "@cloudflare/puppeteer";
-
+//
 export default {
   async fetch(_request, env) {
     let browser;
@@ -35,3 +35,4 @@ export default {
     }
   },
 };
+
