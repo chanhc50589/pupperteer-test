@@ -1,7 +1,7 @@
 import puppeteer from "@cloudflare/puppeteer";
-//
+
 export default {
-  async fetch(_request, env) {
+  async fetch(request, env) {
     let browser;
 
     try {
@@ -12,8 +12,6 @@ export default {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
-
-      //const html = await page.content();
 
       return Response.json({
         ok: true,
@@ -35,5 +33,3 @@ export default {
     }
   },
 };
-
-
