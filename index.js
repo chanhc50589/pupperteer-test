@@ -21,7 +21,9 @@ export default {
 
 		const url2 = "https://gemini.google.com";
 
-      await page.goto(url1, {
+		const url3 = "https://duckduckgo.com";
+
+      await page.goto(url3, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
@@ -49,6 +51,7 @@ export default {
     }
   },
 };
+
 
 
 
