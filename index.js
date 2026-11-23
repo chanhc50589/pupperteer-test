@@ -13,7 +13,7 @@ export default {
         timeout: 15_000,
       });
 
-      const html = await page.content();
+      //const html = await page.content();
 
       return Response.json({
         ok: true,
@@ -35,4 +35,5 @@ export default {
     }
   },
 };
+
 
