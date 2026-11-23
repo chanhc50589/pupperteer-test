@@ -1,7 +1,7 @@
 import puppeteer from "@cloudflare/puppeteer";
 
 export default {
-  async fetch(request, env) {
+  async fetch(_request, env) {
     let browser;
 
     try {
@@ -13,10 +13,13 @@ export default {
         timeout: 15_000,
       });
 
+	const html = await page.content();
+
       return Response.json({
         ok: true,
         title: await page.title(),
         browserVersion: await browser.version(),
+        html: html
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
