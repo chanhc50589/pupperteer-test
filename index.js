@@ -17,11 +17,13 @@ export default {
         timeout: 15_000,
       });
 
+      const html = await page.content();
+
       return Response.json({
         ok: true,
         title: await page.title(),
         browserVersion: await browser.version(),
-        html: await page.content(),
+        //html: await page.content(),
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
@@ -38,3 +40,4 @@ export default {
     }
   },
 } satisfies ExportedHandler<Env>;
+
