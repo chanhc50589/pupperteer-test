@@ -1,0 +1,12 @@
+# local-only secrets (never commit)
+.dev.vars
+.dev.vars.*
+
+# dependencies and tooling output
+node_modules/
+.wrangler/
+dist/
+
+# misc
+*.log
+.DS_Store
