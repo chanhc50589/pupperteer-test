@@ -8,7 +8,7 @@ export default {
       browser = await puppeteer.launch(env.BROWSER);
       const page = await browser.newPage();
 
- 
+ await page.setJavaScriptEnabled(true);
 
       await page.goto("https://duck.ai/chat?ia=chat&duckai=1&home=1&prompt=1&origin=funnel_home_website&t=h_&we_feature_name=search-from-homepage&we_started_at=09-44-18_773&q=hello&model=gpt-6-luna&reasoning=low", {
         waitUntil: "domcontentloaded",
@@ -38,6 +38,7 @@ export default {
     }
   },
 };
+
 
 
 
