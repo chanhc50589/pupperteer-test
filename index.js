@@ -10,11 +10,18 @@ export default {
 
  await page.setJavaScriptEnabled(true);
 
-		// const url = "https://duck.ai/chat?ia=chat&duckai=1&home=1&prompt=1&origin=funnel_home_website&t=h_&we_feature_name=search-from-homepage&we_started_at=09-44-18_773&q=hello&model=gpt-6-luna&reasoning=low"
+		await page.setExtraHTTPHeaders({
+  'accept-language': 'en-US,en;q=0.9',
+});
 
-		const url = "https://gemini.google.com";
 
-      await page.goto(url, {
+
+
+		const url1 = "https://duck.ai/chat?ia=chat&duckai=1&home=1&prompt=1&origin=funnel_home_website&t=h_&we_feature_name=search-from-homepage&we_started_at=09-44-18_773&q=hello&model=gpt-6-luna&reasoning=low"
+
+		const url2 = "https://gemini.google.com";
+
+      await page.goto(url1, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
@@ -42,6 +49,7 @@ export default {
     }
   },
 };
+
 
 
 
