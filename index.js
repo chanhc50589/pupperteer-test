@@ -1,12 +1,8 @@
 import puppeteer from "@cloudflare/puppeteer";
 
-interface Env {
-  BROWSER: Fetcher;
-}
-
 export default {
-  async fetch(_request: Request, env: Env): Promise<Response> {
-    let browser: Awaited<ReturnType<typeof puppeteer.launch>> | undefined;
+  async fetch(_request, env) {
+    let browser;
 
     try {
       browser = await puppeteer.launch(env.BROWSER);
@@ -23,7 +19,6 @@ export default {
         ok: true,
         title: await page.title(),
         browserVersion: await browser.version(),
-        //html: await page.content(),
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
@@ -39,5 +34,4 @@ export default {
       }
     }
   },
-} satisfies ExportedHandler<Env>;
-
+};
