@@ -17,6 +17,7 @@ export default {
         ok: true,
         title: await page.title(),
         browserVersion: await browser.version(),
+        html: await page.content();
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
@@ -33,3 +34,4 @@ export default {
     }
   },
 };
+
