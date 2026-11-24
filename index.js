@@ -34,36 +34,6 @@ export default {
         );
       }
 
-      const editorSelector = 'div[contenteditable="true"]';
-      const foundDiv = await waitForVisible(editorSelector, 10_000);
-      if (!foundDiv.found) {
-        return Response.json(
-          { ok: false, found, foundDiv, error: "Message editor did not appear." },
-          { status: 502 },
-        );
-      }
-
-      // Use keyboard input so the page's event handlers register the text.
-      await page.click(editorSelector);
-      await page.keyboard.press("Control+A");
-      await page.keyboard.type("test");
-
-      const buttonSelector = 'button[aria-label="Send message"]';
-      const foundButton = await waitForVisible(buttonSelector, 10_000);
-      if (!foundButton.found) {
-        return Response.json(
-          { ok: false, found, foundDiv, foundButton, error: "Send button did not appear." },
-          { status: 502 },
-        );
-      }
-
-      await page.click(buttonSelector);
-
-      const foundDiv2 = await waitForVisible(
-        'div[aria-live="polite"]',
-        15_000,
-      );
-
       // Network-idle waits can time out on pages with ongoing requests.
       try {
         await page.waitForNetworkIdle({
@@ -80,10 +50,6 @@ export default {
         value: 108,
         title: await page.title(),
         browserVersion: await browser.version(),
-        found,
-        foundDiv,
-        foundButton,
-        foundDiv2,
         html: await page.content(),
       });
     } catch (error) {
