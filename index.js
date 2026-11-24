@@ -23,13 +23,13 @@ export default {
       });
 
 		const found = await page
-  .waitForSelector('#app', { timeout: 10_000 })
+  .waitForSelector('#app', { timeout: 15_000 })
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
     await clickIfPresent(page, 'button[aria-label="Continue"]');
     await clickIfPresent(page, 'button[data-testid="DUCKAI_ONBOARDING_AGREE"]');
-
+*/
     await page.waitForFunction(
       () =>
         Array.from(document.querySelectorAll("span")).some(
@@ -37,16 +37,16 @@ export default {
         ),
       { timeout: 59_000 },
     );
-
+/*
     await page.waitForSelector('div[data-activeresponse="true"]', {
       timeout: 59_000,
     });
-
+/*
     const result = await page.$eval(
       'div[data-activeresponse="true"]',
       (element) => element.outerHTML,
     );
-
+*/
 
 	const html = await page.content();
 
@@ -55,7 +55,8 @@ export default {
         title: await page.title(),
         browserVersion: await browser.version(),
 	found: found,
-	result: result,
+		  html: html
+	//result: result,
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
