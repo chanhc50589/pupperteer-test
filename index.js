@@ -25,7 +25,7 @@ export default {
 
 		const url4 = "https://duck.ai";
 
-      await page.goto(url4, {
+      await page.goto(url1, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
