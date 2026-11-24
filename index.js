@@ -35,7 +35,7 @@ export default {
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-await new Promise(resolve => setTimeout(resolve, 10000));
+await new Promise(resolve => setTimeout(resolve, 5000));
 
 	await page.click('button[aria-label="Continue"]');
 /*
@@ -49,6 +49,7 @@ await new Promise(resolve => setTimeout(resolve, 10000));
   .then(() => ({ foundResponse: true }))
   .catch(e => ({ foundResponse: false, error: e.message }));
 */
+		await new Promise(resolve => setTimeout(resolve, 5000));
 	const html = await page.content();
 
 		
