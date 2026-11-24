@@ -58,7 +58,7 @@ export default {
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
-		  foundButton: foundButton,
+		  //foundButton: foundButton,
 		  //foundResponse: foundResponse,
         html: html
       });
