@@ -8,49 +8,46 @@ export default {
       browser = await puppeteer.launch(env.BROWSER);
       const page = await browser.newPage();
 
-      await page.setExtraHTTPHeaders({
-        "accept-language": "en-US,en;q=0.9",
-      });
+	
 
-      await page.goto("https://gemini.google.com", {
+ await page.setJavaScriptEnabled(true);
+
+		await page.setExtraHTTPHeaders({
+  'accept-language': 'en-US,en;q=0.9',
+});
+
+
+		const url2 = "https://gemini.google.com";
+
+      await page.goto(url2, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
 
-      async function waitForVisible(selector, timeout) {
-        try {
-          await page.waitForSelector(selector, { visible: true, timeout });
-          return { found: true };
-        } catch (error) {
-          return { found: false, error: error.message };
-        }
-      }
+		const found = await page
+  .waitForSelector('#app-root', { timeout: 20000 })
+  .then(() => ({ found: true }))
+  .catch(e => ({ found: false, error: e.message }));
 
-      const found = await waitForVisible("#app-root", 20_000);
-      if (!found.found) {
-        return Response.json(
-          { ok: false, found, error: "App root did not appear." },
-          { status: 502 },
-        );
-      }
 
-      // Network-idle waits can time out on pages with ongoing requests.
-      try {
-        await page.waitForNetworkIdle({
-          idleTime: 1_000,
-          concurrency: 0,
-          timeout: 10_000,
-        });
-      } catch {
-        // Continue and return the page state even if it never becomes idle.
-      }
+
+await page.waitForNetworkIdle({
+  idleTime: 5500,
+  concurrency: 0,
+  timeout: 50000,
+});
+
+	//const html = await page.content();
+
+		
 
       return Response.json({
         ok: true,
-        value: 108,
+		  value: 1147,
         title: await page.title(),
         browserVersion: await browser.version(),
-        html: await page.content(),
+		  found: found,
+        html: await page.content();
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
