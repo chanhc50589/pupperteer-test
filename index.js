@@ -46,9 +46,14 @@ await new Promise(resolve => setTimeout(resolve, 2100));
 
 await page.$eval('div[contenteditable="true"]', el => {
   const p = document.createElement('p');
-  p.textContent = 'test';
+  p.textContent = 'hi';
   el.replaceChildren(p);
 });
+
+await new Promise(resolve => setTimeout(resolve, 1100));
+
+	await page.click('button[aria-label="Send message"]');
+
 await new Promise(resolve => setTimeout(resolve, 2100));
 
 // waits for 0 active connections for at least 500 ms, throwing a TimeoutError after 15000 ms if that never happens.
@@ -64,7 +69,7 @@ await page.waitForNetworkIdle({
 
       return Response.json({
         ok: true,
-		  value: 1217,
+		  value: 1227,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
