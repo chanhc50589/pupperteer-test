@@ -39,13 +39,18 @@ export default {
 
 await new Promise(resolve => setTimeout(resolve, 2100));
 
-await page.$eval(
-  'div[contenteditable="true"]',
-  el => { el.innerHTML = '<p>test</p>'; }
-);
+	const foundDiv = await page
+  .waitForSelector('div[contenteditable="true"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundDiv: true }))
+  .catch(e => ({ foundDiv: false, error: e.message }));
+
+await page.$eval('div[contenteditable="true"]', el => {
+  const p = document.createElement('p');
+  p.textContent = 'test';
+  el.replaceChildren(p);
+});
 await new Promise(resolve => setTimeout(resolve, 2100));
 
-// Wait until in-flight connections drop to 2 or fewer for 500 ms
 // waits for 0 active connections for at least 500 ms, throwing a TimeoutError after 15000 ms if that never happens.
 await page.waitForNetworkIdle({
   idleTime: 5500,
@@ -59,11 +64,11 @@ await page.waitForNetworkIdle({
 
       return Response.json({
         ok: true,
-		  value: 1211,
+		  value: 1217,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
-		  //foundButton: foundButton,
+		  foundDiv: foundDiv,
 		  //foundResponse: foundResponse,
         html: html
       });
