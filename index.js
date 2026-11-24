@@ -25,31 +25,37 @@ export default {
 
 		const url4 = "https://duck.ai";
 
-      await page.goto(url2, {
+      await page.goto(url1, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
 
 		const found = await page
-  .waitForSelector('#app-root', { timeout: 20000 })
+  .waitForSelector('#app', { timeout: 20000 })
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
+await new Promise(resolve => setTimeout(resolve, 5000));
 
-// Wait until in-flight connections drop to 2 or fewer for 500 ms
-await page.waitForNetworkIdle({
-  idleTime: 5500,
-  concurrency: 0,
-  timeout: 50000,
-});
-		
+	await page.click('button[aria-label="Continue"]');
+/*
+	const foundButton = await page
+  .waitForSelector('button[aria-label="Continue"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundButton: true }))
+  .catch(e => ({ foundButton: false, error: e.message }));
+  
+	const foundResponse = await page
+  .waitForSelector('div[data-activeresponse="true"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundResponse: true }))
+  .catch(e => ({ foundResponse: false, error: e.message }));
+*/
+		await new Promise(resolve => setTimeout(resolve, 5000));
 	const html = await page.content();
 
 		
 
       return Response.json({
         ok: true,
-		  value: 1124,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
