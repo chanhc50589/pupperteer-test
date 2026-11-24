@@ -28,8 +28,15 @@ export default {
   .catch(e => ({ found: false, error: e.message }));
 
     await clickIfPresent(page, 'button[aria-label="Continue"]');
-    await clickIfPresent(page, 'button[data-testid="DUCKAI_ONBOARDING_AGREE"]');
-*/
+ /*   await clickIfPresent(page, 'button[data-testid="DUCKAI_ONBOARDING_AGREE"]');
+
+
+
+    await page.waitForSelector('div[data-activeresponse="true"]', {
+      timeout: 15_000,
+    });
+
+
     await page.waitForFunction(
       () =>
         Array.from(document.querySelectorAll("span")).some(
@@ -37,11 +44,7 @@ export default {
         ),
       { timeout: 59_000 },
     );
-/*
-    await page.waitForSelector('div[data-activeresponse="true"]', {
-      timeout: 59_000,
-    });
-/*
+
     const result = await page.$eval(
       'div[data-activeresponse="true"]',
       (element) => element.outerHTML,
