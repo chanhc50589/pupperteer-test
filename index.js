@@ -59,10 +59,11 @@ await page.$eval('div[contenteditable="true"]', el => {
 
 //await new Promise(resolve => setTimeout(resolve, 2100));
 
-	  	const foundButton2 = await page
+	  	const foundButton2 = 1;
+			/*await page
   .waitForSelector('div[aria-live="polite"]', { visible: true, timeout: 15_000 })
   .then(() => ({ foundButton2: true }))
-  .catch(e => ({ foundButton2: false, error: e.message }));
+  .catch(e => ({ foundButton2: false, error: e.message }));*/
 
 // waits for 0 active connections for at least 500 ms, throwing a TimeoutError after 15000 ms if that never happens.
 await page.waitForNetworkIdle({
