@@ -8,6 +8,21 @@ export default {
       browser = await puppeteer.launch(env.BROWSER);
       const page = await browser.newPage();
 
+		  // Set the test viewport before navigation.
+  await page.setViewport({
+    width: 1366,
+    height: 769,
+    deviceScaleFactor: 1,
+  });
+
+      await page.evaluateOnNewDocument(() => {
+        // 1. webdriver
+        Object.defineProperty(navigator, "webdriver", {
+          get: () => false,
+          configurable: true,
+        });
+      }
+
  await page.setJavaScriptEnabled(true);
 
 		await page.setExtraHTTPHeaders({
