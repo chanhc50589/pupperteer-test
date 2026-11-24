@@ -8,84 +8,83 @@ export default {
       browser = await puppeteer.launch(env.BROWSER);
       const page = await browser.newPage();
 
-	
+      await page.setExtraHTTPHeaders({
+        "accept-language": "en-US,en;q=0.9",
+      });
 
- await page.setJavaScriptEnabled(true);
-
-		await page.setExtraHTTPHeaders({
-  'accept-language': 'en-US,en;q=0.9',
-});
-
-
-
-
-		const url1 = "https://duck.ai/chat?ia=chat&duckai=1&home=1&prompt=1&origin=funnel_home_website&t=h_&we_feature_name=search-from-homepage&we_started_at=09-44-18_773&q=hello&model=gpt-6-luna&reasoning=low"
-
-		const url2 = "https://gemini.google.com";
-
-		const url3 = "https://duckduckgo.com";
-
-		const url4 = "https://duck.ai";
-
-      await page.goto(url2, {
+      await page.goto("https://gemini.google.com", {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
 
-		const found = await page
-  .waitForSelector('#app-root', { timeout: 20000 })
-  .then(() => ({ found: true }))
-  .catch(e => ({ found: false, error: e.message }));
+      async function waitForVisible(selector, timeout) {
+        try {
+          await page.waitForSelector(selector, { visible: true, timeout });
+          return { found: true };
+        } catch (error) {
+          return { found: false, error: error.message };
+        }
+      }
 
-await new Promise(resolve => setTimeout(resolve, 2100));
+      const found = await waitForVisible("#app-root", 20_000);
+      if (!found.found) {
+        return Response.json(
+          { ok: false, found, error: "App root did not appear." },
+          { status: 502 },
+        );
+      }
 
-	const foundDiv = await page
-  .waitForSelector('div[contenteditable="true"]', { visible: true, timeout: 5_000 })
-  .then(() => ({ foundDiv: true }))
-  .catch(e => ({ foundDiv: false, error: e.message }));
+      const editorSelector = 'div[contenteditable="true"]';
+      const foundDiv = await waitForVisible(editorSelector, 10_000);
+      if (!foundDiv.found) {
+        return Response.json(
+          { ok: false, found, foundDiv, error: "Message editor did not appear." },
+          { status: 502 },
+        );
+      }
 
-await page.$eval('div[contenteditable="true"]', el => {
-  const p = document.createElement('p');
-  p.textContent = 'hello there';
-  el.replaceChildren(p);
-});
+      // Use keyboard input so the page's event handlers register the text.
+      await page.click(editorSelector);
+      await page.keyboard.press("Control+A");
+      await page.keyboard.type("test");
 
-	const foundButton = await page
-  .waitForSelector('button[aria-label="Send message"]', { visible: true, timeout: 5_000 })
-  .then(() => ({ foundButton: true }))
-  .catch(e => ({ foundButton: false, error: e.message }));
+      const buttonSelector = 'button[aria-label="Send message"]';
+      const foundButton = await waitForVisible(buttonSelector, 10_000);
+      if (!foundButton.found) {
+        return Response.json(
+          { ok: false, found, foundDiv, foundButton, error: "Send button did not appear." },
+          { status: 502 },
+        );
+      }
 
-	await page.click('button[aria-label="Send message"]');
+      await page.click(buttonSelector);
 
-await new Promise(resolve => setTimeout(resolve, 2100));
+      const foundDiv2 = await waitForVisible(
+        'div[aria-live="polite"]',
+        15_000,
+      );
 
-	  	const foundButton2 = await page
-  .waitForSelector('div[aria-live="polite"]', { visible: true, timeout: 15_000 })
-  .then(() => ({ foundButton2: true }))
-  .catch(e => ({ foundButton2: false, error: e.message }));*/
-
-// waits for 0 active connections for at least 500 ms, throwing a TimeoutError after 15000 ms if that never happens.
-await page.waitForNetworkIdle({
-  idleTime: 5500,
-  concurrency: 0,
-  timeout: 50000,
-});
-
-	const html = await page.content();
-
-		
+      // Network-idle waits can time out on pages with ongoing requests.
+      try {
+        await page.waitForNetworkIdle({
+          idleTime: 1_000,
+          concurrency: 0,
+          timeout: 10_000,
+        });
+      } catch {
+        // Continue and return the page state even if it never becomes idle.
+      }
 
       return Response.json({
         ok: true,
-		  value: 1248,
+        value: 108,
         title: await page.title(),
         browserVersion: await browser.version(),
-		  found: found,
-		  foundDiv: foundDiv,
-		  foundButton: foundButton,
-		  foundButton2: foundButton2,
-		  //foundResponse: foundResponse,
-        html: html
+        found,
+        foundDiv,
+        foundButton,
+        foundDiv2,
+        html: await page.content(),
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
