@@ -30,19 +30,34 @@ export default {
         timeout: 15_000,
       });
 
-		const result = await page
+		const found = await page
   .waitForSelector('#app', { timeout: 20000 })
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
+	const foundButton = await page
+  .waitForSelector('button[aria-label="Continue"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundButton: true }))
+  .catch(e => ({ foundButton: false, error: e.message }));
+
+	await page.click('button[aria-label="Continue"]');
+
+	const foundResponse = await page
+  .waitForSelector('div[data-activeresponse="true"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundResponse: true }))
+  .catch(e => ({ foundResponse: false, error: e.message }));
 
 	const html = await page.content();
+
+		
 
       return Response.json({
         ok: true,
         title: await page.title(),
         browserVersion: await browser.version(),
-		result: result,
+		  found: found,
+		  foundButton: foundButton,
+		  foundResponse: foundResponse,
         html: html
       });
     } catch (error) {
