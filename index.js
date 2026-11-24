@@ -20,7 +20,6 @@ export default {
 		  value: 1147,
         title: await page.title(),
         browserVersion: await browser.version(),
-		  found: found,
         html: await page.content()
       });
     } catch (error) {
