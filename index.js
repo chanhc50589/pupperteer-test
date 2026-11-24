@@ -8,20 +8,7 @@ export default {
       browser = await puppeteer.launch(env.BROWSER);
       const page = await browser.newPage();
 
-		  // Set the test viewport before navigation.
-  await page.setViewport({
-    width: 1366,
-    height: 769,
-    deviceScaleFactor: 1,
-  });
-
-      await page.evaluateOnNewDocument(() => {
-        // 1. webdriver
-        Object.defineProperty(navigator, "webdriver", {
-          get: () => false,
-          configurable: true,
-        });
-      }
+	
 
  await page.setJavaScriptEnabled(true);
 
@@ -61,18 +48,7 @@ await page.waitForNetworkIdle({
   concurrency: 0,
   timeout: 50000,
 });
-/*
-	const foundButton = await page
-  .waitForSelector('button[aria-label="Continue"]', { visible: true, timeout: 5_000 })
-  .then(() => ({ foundButton: true }))
-  .catch(e => ({ foundButton: false, error: e.message }));
-  
-	const foundResponse = await page
-  .waitForSelector('div[data-activeresponse="true"]', { visible: true, timeout: 5_000 })
-  .then(() => ({ foundResponse: true }))
-  .catch(e => ({ foundResponse: false, error: e.message }));
-*/
-		//await new Promise(resolve => setTimeout(resolve, 5000));
+
 	const html = await page.content();
 
 		
