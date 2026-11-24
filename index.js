@@ -37,7 +37,7 @@ export default {
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-await new Promise(resolve => setTimeout(resolve, 2100));
+//await new Promise(resolve => setTimeout(resolve, 2100));
 
 	const foundDiv = await page
   .waitForSelector('div[contenteditable="true"]', { visible: true, timeout: 5_000 })
@@ -50,11 +50,19 @@ await page.$eval('div[contenteditable="true"]', el => {
   el.replaceChildren(p);
 });
 
-await new Promise(resolve => setTimeout(resolve, 1100));
+	const foundButton = await page
+  .waitForSelector('button[aria-label="Send message"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundButton: true }))
+  .catch(e => ({ foundButton: false, error: e.message }));
 
 	await page.click('button[aria-label="Send message"]');
 
-await new Promise(resolve => setTimeout(resolve, 2100));
+//await new Promise(resolve => setTimeout(resolve, 2100));
+
+	  	const foundButton2 = await page
+  .waitForSelector('button[aria-label="Redo"]', { visible: true, timeout: 5_000 })
+  .then(() => ({ foundButton2: true }))
+  .catch(e => ({ foundButton2: false, error: e.message }));
 
 // waits for 0 active connections for at least 500 ms, throwing a TimeoutError after 15000 ms if that never happens.
 await page.waitForNetworkIdle({
@@ -69,11 +77,13 @@ await page.waitForNetworkIdle({
 
       return Response.json({
         ok: true,
-		  value: 1227,
+		  value: 1235,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
 		  foundDiv: foundDiv,
+		  foundButton: foundButton,
+		  foundButton2: foundButton2,
 		  //foundResponse: foundResponse,
         html: html
       });
