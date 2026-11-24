@@ -35,13 +35,15 @@ export default {
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
+
+
+	await page.click('button[aria-label="Continue"]');
+/*
 	const foundButton = await page
   .waitForSelector('button[aria-label="Continue"]', { visible: true, timeout: 5_000 })
   .then(() => ({ foundButton: true }))
   .catch(e => ({ foundButton: false, error: e.message }));
-
-	await page.click('button[aria-label="Continue"]');
-/*
+  
 	const foundResponse = await page
   .waitForSelector('div[data-activeresponse="true"]', { visible: true, timeout: 5_000 })
   .then(() => ({ foundResponse: true }))
