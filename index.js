@@ -37,7 +37,7 @@ export default {
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-//await new Promise(resolve => setTimeout(resolve, 2100));
+await new Promise(resolve => setTimeout(resolve, 2100));
 
 	const foundDiv = await page
   .waitForSelector('div[contenteditable="true"]', { visible: true, timeout: 5_000 })
@@ -57,10 +57,9 @@ await page.$eval('div[contenteditable="true"]', el => {
 
 	await page.click('button[aria-label="Send message"]');
 
-//await new Promise(resolve => setTimeout(resolve, 2100));
+await new Promise(resolve => setTimeout(resolve, 2100));
 
-	  	const foundButton2 = 1;
-			/*await page
+	  	const foundButton2 = await page
   .waitForSelector('div[aria-live="polite"]', { visible: true, timeout: 15_000 })
   .then(() => ({ foundButton2: true }))
   .catch(e => ({ foundButton2: false, error: e.message }));*/
