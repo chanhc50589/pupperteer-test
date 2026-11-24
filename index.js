@@ -77,7 +77,7 @@ await page.waitForNetworkIdle({
 
       return Response.json({
         ok: true,
-		  value: 1235,
+		  value: 1248,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
