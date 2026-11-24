@@ -35,7 +35,7 @@ export default {
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-await new Promise(resolve => setTimeout(resolve, 5000));
+await new Promise(resolve => setTimeout(resolve, 2100));
 
 	await page.click('button[aria-label="Continue"]');
 
@@ -43,7 +43,7 @@ await new Promise(resolve => setTimeout(resolve, 5000));
 await page.waitForNetworkIdle({
   idleTime: 5500,
   concurrency: 0,
-  timeout: 15000,
+  timeout: 50000,
 });
 /*
 	const foundButton = await page
