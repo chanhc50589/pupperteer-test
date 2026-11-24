@@ -38,6 +38,13 @@ export default {
 await new Promise(resolve => setTimeout(resolve, 5000));
 
 	await page.click('button[aria-label="Continue"]');
+
+// Wait until in-flight connections drop to 2 or fewer for 500 ms
+await page.waitForNetworkIdle({
+  idleTime: 500,
+  concurrency: 2,
+  timeout: 15000,
+});
 /*
 	const foundButton = await page
   .waitForSelector('button[aria-label="Continue"]', { visible: true, timeout: 5_000 })
