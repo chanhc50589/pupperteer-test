@@ -41,8 +41,8 @@ await new Promise(resolve => setTimeout(resolve, 5000));
 
 // Wait until in-flight connections drop to 2 or fewer for 500 ms
 await page.waitForNetworkIdle({
-  idleTime: 500,
-  concurrency: 2,
+  idleTime: 5500,
+  concurrency: 0,
   timeout: 15000,
 });
 /*
@@ -56,7 +56,7 @@ await page.waitForNetworkIdle({
   .then(() => ({ foundResponse: true }))
   .catch(e => ({ foundResponse: false, error: e.message }));
 */
-		await new Promise(resolve => setTimeout(resolve, 5000));
+		//await new Promise(resolve => setTimeout(resolve, 5000));
 	const html = await page.content();
 
 		
