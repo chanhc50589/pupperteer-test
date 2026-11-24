@@ -41,12 +41,12 @@ export default {
   .catch(e => ({ foundButton: false, error: e.message }));
 
 	await page.click('button[aria-label="Continue"]');
-
+/*
 	const foundResponse = await page
   .waitForSelector('div[data-activeresponse="true"]', { visible: true, timeout: 5_000 })
   .then(() => ({ foundResponse: true }))
   .catch(e => ({ foundResponse: false, error: e.message }));
-
+*/
 	const html = await page.content();
 
 		
@@ -57,7 +57,7 @@ export default {
         browserVersion: await browser.version(),
 		  found: found,
 		  foundButton: foundButton,
-		  foundResponse: foundResponse,
+		  //foundResponse: foundResponse,
         html: html
       });
     } catch (error) {
