@@ -46,7 +46,7 @@ export default {
 
 await page.$eval('div[contenteditable="true"]', el => {
   const p = document.createElement('p');
-  p.textContent = 'hi';
+  p.textContent = 'hello there';
   el.replaceChildren(p);
 });
 
@@ -60,7 +60,7 @@ await page.$eval('div[contenteditable="true"]', el => {
 //await new Promise(resolve => setTimeout(resolve, 2100));
 
 	  	const foundButton2 = await page
-  .waitForSelector('button[aria-label="Redo"]', { visible: true, timeout: 5_000 })
+  .waitForSelector('div[aria-live="polite"]', { visible: true, timeout: 15_000 })
   .then(() => ({ foundButton2: true }))
   .catch(e => ({ foundButton2: false, error: e.message }));
 
