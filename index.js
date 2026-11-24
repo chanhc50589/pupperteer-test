@@ -19,7 +19,7 @@ export default {
 
       await page.goto(url1, {
         waitUntil: "domcontentloaded",
-        timeout: 10_000,
+        timeout: 15_000,
       });
 
 		const found = await page
@@ -27,8 +27,11 @@ export default {
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-    await clickIfPresent(page, 'button[aria-label="Continue"]');
- /*   await clickIfPresent(page, 'button[data-testid="DUCKAI_ONBOARDING_AGREE"]');
+		await new Promise(resolve => setTimeout(resolve, 3000));
+
+
+ /*   await clickIfPresent(page, 'button[aria-label="Continue"]');
+    await clickIfPresent(page, 'button[data-testid="DUCKAI_ONBOARDING_AGREE"]');
 
 
 
