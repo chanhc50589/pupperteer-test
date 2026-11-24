@@ -27,19 +27,19 @@ export default {
 
 		const url4 = "https://duck.ai";
 
-      await page.goto(url1, {
+      await page.goto(url2, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
 
 		const found = await page
-  .waitForSelector('#app', { timeout: 20000 })
+  .waitForSelector('#app-root', { timeout: 20000 })
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
 await new Promise(resolve => setTimeout(resolve, 2100));
 
-	await page.click('button[aria-label="Continue"]');
+	//await page.click('button[aria-label="Continue"]');
 
 // Wait until in-flight connections drop to 2 or fewer for 500 ms
 // waits for 0 active connections for at least 500 ms, throwing a TimeoutError after 15000 ms if that never happens.
@@ -55,6 +55,7 @@ await page.waitForNetworkIdle({
 
       return Response.json({
         ok: true,
+		  value: 1147,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
