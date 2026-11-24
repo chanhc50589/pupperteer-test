@@ -40,19 +40,16 @@ export default {
 
 		const url4 = "https://duck.ai";
 
-      await page.goto(url1, {
+      await page.goto(url2, {
         waitUntil: "domcontentloaded",
         timeout: 15_000,
       });
 
 		const found = await page
-  .waitForSelector('#app', { timeout: 20000 })
+  .waitForSelector('#app-root', { timeout: 20000 })
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-await new Promise(resolve => setTimeout(resolve, 2100));
-
-	await page.click('button[aria-label="Continue"]');
 
 // Wait until in-flight connections drop to 2 or fewer for 500 ms
 await page.waitForNetworkIdle({
