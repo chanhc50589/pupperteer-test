@@ -25,10 +25,16 @@ export default {
 
 		const url4 = "https://duck.ai";
 
-      await page.goto(url1, {
+      await page.goto(url4, {
         waitUntil: "domcontentloaded",
-        timeout: 15_000,
+        timeout: 20_000,
       });
+
+		const result = await page
+  .waitForSelector('#app', { timeout: 40000 })
+  .then(() => ({ found: true }))
+  .catch(e => ({ found: false, error: e.message }));
+
 
 	const html = await page.content();
 
@@ -36,6 +42,7 @@ export default {
         ok: true,
         title: await page.title(),
         browserVersion: await browser.version(),
+		result: result,
         html: html
       });
     } catch (error) {
