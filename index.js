@@ -3,7 +3,8 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 502;
+	const value = 508;
+	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null;
 
     try {
       browser = await puppeteer.launch(env.BROWSER);
@@ -21,14 +22,16 @@ export default {
         timeout: 15_000,
       });
 
-		const found = await page
+//
+found = await page
   .waitForSelector('#app-root', { timeout: 20000 })
   .then(() => ({ found: true }))
   .catch(e => ({ found: false, error: e.message }));
 
-//await new Promise(resolve => setTimeout(resolve, 2100));
+await new Promise(resolve => setTimeout(resolve, 2100));
 
-	const foundDiv = await page
+//
+foundDiv = await page
   .waitForSelector('div[contenteditable="true"]', { visible: true, timeout: 5_000 })
   .then(() => ({ foundDiv: true }))
   .catch(e => ({ foundDiv: false, error: e.message }));
@@ -39,14 +42,16 @@ await page.$eval('div[contenteditable="true"]', el => {
   el.replaceChildren(p);
 });
 
-	const foundButton = await page
+//
+foundButton = await page
   .waitForSelector('button[aria-label="Send message"]', { visible: true, timeout: 5_000 })
   .then(() => ({ foundButton: true }))
   .catch(e => ({ foundButton: false, error: e.message }));
 
 	await page.click('button[aria-label="Send message"]');
 
-	const foundDiv2 = await page.waitForSelector('div[inline-copy-host=""]');
+//
+foundDiv2 = await page.waitForSelector('div[inline-copy-host=""]');
 
     const result = await page.$eval(
       'div[inline-copy-host=""]',
