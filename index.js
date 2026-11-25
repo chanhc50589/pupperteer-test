@@ -53,7 +53,7 @@ await page.waitForNetworkIdle({
 });
 
     const result = await page.$eval(
-      'model-response-content',
+      'div[inline-copy-host=""]',
       (element) => element.outerHTML,
     );
 
@@ -63,7 +63,7 @@ await browser.close();
 
       return Response.json({
         ok: true,
-		  value: 436,
+		  value: 446,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
