@@ -3,7 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 542;
+	const value = 611;
 	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null;
 
     try {
@@ -69,7 +69,7 @@ await page.waitForNetworkIdle({
 
 console.log("done")
 
-//await browser.close();
+await browser.close();
 
       return Response.json({
         ok: true,
@@ -80,6 +80,8 @@ console.log("done")
 		  foundDiv: foundDiv,
 		  foundButton: foundButton,
 		  foundDiv2: foundDiv2,
+		  browser: browser,
+		  connected: browser.isConnected(),
 		  result: result,
         html: await page.content()
       });
@@ -93,6 +95,7 @@ console.log("done")
 		  foundButton: foundButton,
 		  foundDiv2: foundDiv2,
 		  browser: browser,
+		 connected: browser.isConnected(),
 		  result: result,
 		error: String(error) },
         { status: 500 },
@@ -102,7 +105,7 @@ console.log("done")
         await browser.close().catch((error) => {
           console.error("Browser close failed:", error);
         });
-console.log(`browser: ${browser}`)
+console.log(`browser: ${browser}, connected: ${browser.isConnected()}`)
       }
     }
   },
