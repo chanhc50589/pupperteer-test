@@ -3,6 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
+	const value = 453;
 
     try {
       browser = await puppeteer.launch(env.BROWSER);
@@ -52,6 +53,8 @@ await page.waitForNetworkIdle({
   timeout: 50000,
 });
 
+await page.waitForSelector('div[inline-copy-host=""]');
+
     const result = await page.$eval(
       'div[inline-copy-host=""]',
       (element) => element.outerHTML,
@@ -63,7 +66,7 @@ await browser.close();
 
       return Response.json({
         ok: true,
-		  value: 446,
+		  value: value,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
@@ -75,7 +78,7 @@ await browser.close();
     } catch (error) {
       console.error("Puppeteer test failed:", error);
       return Response.json(
-        { ok: false, error: String(error) },
+        { ok: false, value: value, error: String(error) },
         { status: 500 },
       );
     } finally {
