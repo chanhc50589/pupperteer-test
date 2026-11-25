@@ -3,7 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 533;
+	const value = 542;
 	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null;
 
     try {
@@ -85,7 +85,7 @@ await browser.close();
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
-await browser.close();
+
       return Response.json(
         { ok: false, value: value, 
 		  found: found,
