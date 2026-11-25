@@ -3,7 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 453;
+	const value = 502;
 
     try {
       browser = await puppeteer.launch(env.BROWSER);
@@ -46,6 +46,12 @@ await page.$eval('div[contenteditable="true"]', el => {
 
 	await page.click('button[aria-label="Send message"]');
 
+	const foundDiv2 = await page.waitForSelector('div[inline-copy-host=""]');
+
+    const result = await page.$eval(
+      'div[inline-copy-host=""]',
+      (element) => element.outerHTML,
+    );
 
 await page.waitForNetworkIdle({
   idleTime: 5500,
@@ -53,16 +59,9 @@ await page.waitForNetworkIdle({
   timeout: 50000,
 });
 
-await page.waitForSelector('div[inline-copy-host=""]');
-
-    const result = await page.$eval(
-      'div[inline-copy-host=""]',
-      (element) => element.outerHTML,
-    );
-
 console.log("done")
 
-await browser.close();
+if(result) await browser.close();
 
       return Response.json({
         ok: true,
@@ -72,13 +71,19 @@ await browser.close();
 		  found: found,
 		  foundDiv: foundDiv,
 		  foundButton: foundButton,
+		  foundDiv2: foundDiv2,
 		  result: result,
         html: await page.content()
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
       return Response.json(
-        { ok: false, value: value, error: String(error) },
+        { ok: false, value: value, 
+		  found: found,
+		  foundDiv: foundDiv,
+		  foundButton: foundButton,
+		  foundDiv2: foundDiv2,
+		error: String(error) },
         { status: 500 },
       );
     } finally {
