@@ -4,10 +4,11 @@ export default {
   async fetch(_request, env) {
     let browser;
 	const value = 611;
-	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null;
+	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null, limits = null;
 
     try {
       browser = await puppeteer.launch(env.BROWSER);
+		limits = await puppeteer.limits(env.BROWSER);
       const page = await browser.newPage();
 
 		await page.setExtraHTTPHeaders({
@@ -82,6 +83,7 @@ await browser.close();
 		  foundDiv2: foundDiv2,
 		  browser: browser,
 		  connected: browser.isConnected(),
+		  limits: limits,
 		  result: result,
         html: await page.content()
       });
@@ -96,6 +98,7 @@ await browser.close();
 		  foundDiv2: foundDiv2,
 		  browser: browser,
 		 connected: browser.isConnected(),
+		 limits: limits,
 		  result: result,
 		error: String(error) },
         { status: 500 },
