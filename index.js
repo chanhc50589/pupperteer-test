@@ -69,7 +69,7 @@ await page.waitForNetworkIdle({
 
 console.log("done")
 
-await browser.close();
+//await browser.close();
 
       return Response.json({
         ok: true,
@@ -102,6 +102,7 @@ await browser.close();
         await browser.close().catch((error) => {
           console.error("Browser close failed:", error);
         });
+console.log(`browser: ${browser}`)
       }
     }
   },
