@@ -34,7 +34,7 @@ export default {
 
 await page.$eval('div[contenteditable="true"]', el => {
   const p = document.createElement('p');
-  p.textContent = 'hello there';
+  p.textContent = 'reply in a code block. 123 + 123 = ?';
   el.replaceChildren(p);
 });
 
@@ -45,13 +45,6 @@ await page.$eval('div[contenteditable="true"]', el => {
 
 	await page.click('button[aria-label="Send message"]');
 
-await new Promise(resolve => setTimeout(resolve, 2100));
-
-	  	const foundButton2 = await page
-  .waitForSelector('div[aria-live="polite"]', { visible: true, timeout: 15_000 })
-  .then(() => ({ foundButton2: true }))
-  .catch(e => ({ foundButton2: false, error: e.message }));
-
 
 await page.waitForNetworkIdle({
   idleTime: 5500,
@@ -59,18 +52,24 @@ await page.waitForNetworkIdle({
   timeout: 50000,
 });
 
+    const result = await page.$eval(
+      'model-response-content',
+      (element) => element.outerHTML,
+    );
+
 console.log("done")
+
+await browser.close();
 
       return Response.json({
         ok: true,
-		  value: 410,
+		  value: 436,
         title: await page.title(),
         browserVersion: await browser.version(),
 		  found: found,
 		  foundDiv: foundDiv,
 		  foundButton: foundButton,
-		  foundButton2: foundButton2,
-		  //foundResponse: foundResponse,
+		  result: result,
         html: await page.content()
       });
     } catch (error) {
