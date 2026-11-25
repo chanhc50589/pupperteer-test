@@ -3,7 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 521;
+	const value = 533;
 	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null;
 
     try {
@@ -38,7 +38,7 @@ foundDiv = await page
 
 await page.$eval('div[contenteditable="true"]', el => {
   const p = document.createElement('p');
-  p.textContent = 'reply in a code block. 123 + 123 = ?';
+  p.textContent = 'reply in a code block. 4321 + 4321 = ?';
   el.replaceChildren(p);
 });
 
@@ -54,7 +54,7 @@ foundButton = await page
 foundDiv2 = await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
     result = await page.$eval(
-      'div[inline-copy-host=""]',
+      'code',
       (element) => element.outerHTML,
     );
 
@@ -85,12 +85,14 @@ await browser.close();
       });
     } catch (error) {
       console.error("Puppeteer test failed:", error);
+await browser.close();
       return Response.json(
         { ok: false, value: value, 
 		  found: found,
 		  foundDiv: foundDiv,
 		  foundButton: foundButton,
 		  foundDiv2: foundDiv2,
+		  browser: browser,
 		  result: result,
 		error: String(error) },
         { status: 500 },
