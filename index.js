@@ -3,7 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 515;
+	const value = 521;
 	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null;
 
     try {
@@ -51,26 +51,25 @@ foundButton = await page
 	await page.click('button[aria-label="Send message"]');
 
 //
-foundDiv2 = await Promise.all([
-  page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+foundDiv2 = await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+
     result = await page.$eval(
       'div[inline-copy-host=""]',
       (element) => element.outerHTML,
     );
-]);
 
 
-/*
+
 await page.waitForNetworkIdle({
   idleTime: 5500,
   concurrency: 0,
   timeout: 50000,
 });
-*/
+
 
 console.log("done")
 
-if(result) await browser.close();
+await browser.close();
 
       return Response.json({
         ok: true,
