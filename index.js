@@ -3,7 +3,7 @@ import puppeteer from "@cloudflare/puppeteer";
 export default {
   async fetch(_request, env) {
     let browser;
-	const value = 611;
+	const value = 646;
 	let found = null, foundDiv = null, foundButton = null, foundDiv2 = null, result = null, limits = null;
 
     try {
@@ -100,7 +100,9 @@ await browser.close();
 		 connected: browser.isConnected(),
 		 limits: limits,
 		  result: result,
-		error: String(error) },
+		error: String(error),
+		 html: await page.content()
+		},
         { status: 500 },
       );
     } finally {
