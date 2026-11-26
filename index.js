@@ -68,7 +68,7 @@ await page.waitForNetworkIdle({
 });
 
 
-console.log("done")
+console.log("done: ", await page.content())
 
 await browser.close();
 
